@@ -56,9 +56,11 @@ class _TodoListState extends State<TodoList> {
                     final data = values[index];
 
                     return Card(
+                      color: Color.fromARGB(221, 51, 51, 51),
                       child: ListTile(
-                        leading:
-                            CircleAvatar(child: Text((index + 1).toString())),
+                        leading: CircleAvatar(
+                            backgroundColor: Color.fromARGB(255, 11, 11, 11),
+                            child: Text((index + 1).toString())),
                         title: Text(data['title']),
                         subtitle: Text(data['description']),
                         trailing: PopupMenuButton(onSelected: (value) {
