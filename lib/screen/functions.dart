@@ -8,14 +8,15 @@ getvalues() async {
   const url = 'https://api.nstack.in/v1/todos?page=1&limit=10';
 
   final uri = Uri.parse(url);
+  final respose = await http.get(uri);
 
-  final datas = await http.get(uri);
-
-  if (datas.statusCode == 200) {
-    final json = jsonDecode(datas.body) as Map;
+  if (respose.statusCode == 200) {
+    final json = jsonDecode(respose.body) as Map;
     final item = json['items'] as List<dynamic>;
+
     apinotifier.value.clear();
     apinotifier.value.addAll(item);
+    // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
     apinotifier.notifyListeners();
   }
 }
@@ -102,7 +103,7 @@ alertdialogue(context, id) {
       context: context,
       builder: (context) {
         return AlertDialog(
-          content: const Text('You want to delete'),
+          content: const Text('You want to delete?'),
           actions: [
             TextButton(
                 onPressed: () {
@@ -117,4 +118,14 @@ alertdialogue(context, id) {
           ],
         );
       });
+}
+
+class Todo {
+  String? name;
+  String? description;
+  Todo(this.name, this.description);
+
+  factory Todo.fromjason(Map json) {
+    return Todo(json['title'], json['description']);
+  }
 }
